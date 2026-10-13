@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スターズホテル 東京 | STARS HOTEL TOKYO</title>
+<meta name="description" content="星空を望む最高のロケーション。伝統のおもてなしと最新の設備を併せもつホテルです。">
+<style>
+:root{--bg:#050816;--panel:rgba(14,20,50,.72);--line:rgba(255,224,150,.28);--gold:#f6d98b;--text:#eef1ff;--sub:#a9b2d6;--accent:#7fa8ff}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 50% 0,#14204f 0,#070b22 55%,#030512 100%) fixed;color:var(--text);font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;line-height:1.9;overflow-x:hidden}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+.wrap{position:relative;z-index:1}
+.inner{max-width:1120px;margin:0 auto;padding:0 20px}
+/* utility bar */
+.util{display:flex;justify-content:flex-end;gap:22px;flex-wrap:wrap;font-size:12px;padding:8px 24px;color:var(--sub);border-bottom:1px solid var(--line);background:rgba(3,5,18,.6)}
+.util a:hover,.util li:hover>a{color:var(--gold)}
+.util .dd{position:relative}
+.util .dd ul{display:none;position:absolute;right:0;top:100%;background:#0b1130;border:1px solid var(--line);padding:8px 14px;min-width:200px;z-index:30}
+.util .dd:hover ul{display:block}
+.util .dd li{padding:3px 0;white-space:nowrap}
+/* header */
+header.site{position:sticky;top:0;z-index:20;background:rgba(5,8,22,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 24px;flex-wrap:wrap}
+.logo{font-size:22px;letter-spacing:.18em;color:var(--gold)}
+.logo small{display:block;font-size:10px;letter-spacing:.3em;color:var(--sub)}
+.logo b{margin-right:6px}
+nav.main>ul{display:flex;gap:6px;flex-wrap:wrap}
+nav.main>ul>li{position:relative}
+nav.main>ul>li>a{display:block;padding:8px 12px;font-size:14px;letter-spacing:.08em}
+nav.main>ul>li:hover>a{color:var(--gold)}
+nav.main ul ul{display:none;position:absolute;left:0;top:100%;background:#0b1130;border:1px solid var(--line);padding:10px 16px;min-width:220px;font-size:13px}
+nav.main li:hover>ul{display:block}
+nav.main ul ul li{padding:3px 0}
+nav.main ul ul a:hover{color:var(--gold)}
+.btn{display:inline-block;border:1px solid var(--gold);color:var(--gold);padding:10px 28px;font-size:14px;letter-spacing:.12em;border-radius:2px;cursor:pointer;background:transparent;font-family:inherit;transition:.3s}
+.btn:hover{background:var(--gold);color:#050816}
+.btn.fill{background:var(--gold);color:#050816}
+/* hero */
+.hero{min-height:64vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 40px}
+.hero small{letter-spacing:.5em;color:var(--sub);font-size:12px}
+.hero h1{font-weight:400;font-size:clamp(28px,5vw,52px);letter-spacing:.2em;margin:14px 0;color:var(--gold);text-shadow:0 0 24px rgba(246,217,139,.45)}
+.hero p{color:var(--sub);max-width:560px}
+/* booking */
+.book{max-width:1000px;margin:-10px auto 40px;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(6px);padding:22px 26px}
+.tabs{display:flex;gap:6px;margin-bottom:16px}
+.tabs button{flex:1;padding:10px;background:transparent;border:1px solid var(--line);color:var(--sub);font-family:inherit;font-size:14px;cursor:pointer;letter-spacing:.1em}
+.tabs button.on{background:rgba(246,217,139,.14);color:var(--gold);border-color:var(--gold)}
+.form{display:none;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;align-items:end}
+.form.on{display:grid}
+label{display:block;font-size:12px;color:var(--sub)}
+select,input{width:100%;margin-top:4px;padding:10px;background:#0a1030;border:1px solid var(--line);color:var(--text);font-family:inherit;font-size:14px;border-radius:2px;color-scheme:dark}
+.links{grid-column:1/-1;display:flex;gap:22px;font-size:12px;color:var(--sub)}
+.links a:hover{color:var(--gold)}
+/* topics */
+.sec{padding:70px 0}
+h2{font-weight:400;font-size:clamp(22px,3vw,32px);letter-spacing:.2em;color:var(--gold);margin-bottom:6px}
+h2 span{display:block;font-size:11px;letter-spacing:.4em;color:var(--sub);margin-bottom:4px}
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:24px}
+.topics a{border:1px solid var(--line);padding:14px 16px;font-size:13px;background:var(--panel);transition:.3s}
+.topics a:hover{border-color:var(--gold);transform:translateY(-3px)}
+.tag{display:inline-block;font-size:10px;letter-spacing:.15em;color:#050816;background:var(--gold);padding:0 8px;margin-right:8px}
+/* feature */
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.feat.rev .txt{order:2}
+.ph{aspect-ratio:4/3;border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;color:var(--sub);font-size:12px;letter-spacing:.3em;background:linear-gradient(135deg,rgba(127,168,255,.08),rgba(246,217,139,.06))}
+.txt p{color:var(--sub);margin:12px 0 20px;font-size:15px}
+.mini{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0 0 18px;font-size:13px}
+.mini a{border-bottom:1px solid var(--line);padding-bottom:2px}
+.mini a:hover{color:var(--gold)}
+.plans{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:6px}
+.plans a{font-size:12px;border:1px solid var(--line);padding:10px 12px;background:var(--panel)}
+.plans a:hover{border-color:var(--gold)}
+.band{background:linear-gradient(90deg,rgba(127,168,255,.12),rgba(246,217,139,.1));border:1px solid var(--line);padding:34px;text-align:center}
+.news li{border-bottom:1px solid var(--line);padding:12px 0;font-size:14px}
+.news a:hover{color:var(--gold)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:24px}
+.card{border:1px solid var(--line);padding:26px;background:var(--panel)}
+.card h3{font-weight:400;color:var(--gold);letter-spacing:.1em;margin-bottom:6px}
+.card p{color:var(--sub);font-size:14px;margin-bottom:16px}
+/* footer */
+footer{border-top:1px solid var(--line);background:rgba(3,5,18,.8);padding:50px 0 24px;font-size:13px;color:var(--sub)}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px}
+footer h4{font-weight:400;color:var(--gold);margin-bottom:8px;letter-spacing:.1em}
+footer li{padding:2px 0}
+footer a:hover{color:var(--gold)}
+.copy{text-align:center;margin-top:34px;font-size:11px}
+@media(max-width:760px){.feat{grid-template-columns:1fr}.feat.rev .txt{order:0}nav.main ul ul{position:static;border:0;padding:0 0 0 12px}.sec{padding:46px 0}}
+
+/* パネル */
+#ov{position:fixed;inset:0;z-index:100;background:rgba(3,5,18,.78);backdrop-filter:blur(6px);display:none;overflow-y:auto;padding:40px 16px}
+#ov.on{display:block}
+.pn{max-width:860px;margin:0 auto;background:#0a1030;border:1px solid var(--gold);padding:34px 32px;position:relative;animation:pin .35s}
+@keyframes pin{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.pn .x{position:absolute;right:14px;top:10px;background:none;border:0;color:var(--gold);font-size:28px;cursor:pointer}
+.pn .lead{color:var(--sub);margin:6px 0 22px;font-size:14px}
+.pn details{border:1px solid var(--line);margin-bottom:8px;background:var(--panel)}
+.pn summary{padding:12px 16px;cursor:pointer;letter-spacing:.06em}
+.pn summary:hover,.pn details[open] summary{color:var(--gold)}
+.pn details p{padding:0 16px 14px;color:var(--sub);font-size:14px}
+.pn details .btn{margin:0 16px 14px;padding:6px 18px;font-size:12px}
+.pn .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.pn .opt{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:16px;text-align:left;font-family:inherit;font-size:14px;cursor:pointer;transition:.3s}
+.pn .opt:hover,.pn .opt.cur{border-color:var(--gold);color:var(--gold)}
+.pn .opt small{display:block;color:var(--sub);font-size:11px;margin-top:4px}
+.pn input.q{font-size:16px;margin:0 0 16px}
+.res{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--text);padding:10px 14px;margin-bottom:6px;font-family:inherit;cursor:pointer;font-size:14px}
+.res:hover{border-color:var(--gold)}
+.res small{color:var(--gold);margin-right:8px;font-size:11px}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--gold);color:#050816;padding:10px 24px;z-index:200;font-size:14px;opacity:0;transition:.4s;pointer-events:none}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<div class="wrap">
+
+<!-- ユーティリティバー -->
+<div class="util">
+  <ul style="display:flex;gap:22px;flex-wrap:wrap">
+    <li class="dd"><a href="#">言語 ▾</a><ul><li><a href="#">日本語</a></li><li><a href="#">ENGLISH</a></li><li><a href="#">中文(简体)</a></li><li><a href="#">中文(繁體)</a></li><li><a href="#">한국어</a></li></ul></li>
+    <li><a href="#">検索</a></li>
+    <li class="dd"><a href="#">ホテルを選ぶ ▾</a><ul><li><a href="#">スターズホテル 東京</a></li><li><a href="#">天の川高原スターズホテル</a></li><li><a href="#">スターズホテル 大阪</a></li><li><a href="#">スターズホテル 京都</a></li><li><a href="#">提携ホテル オリオン</a></li><li><a href="#">提携ホテル シリウス ウミ</a></li></ul></li>
+    <li><a href="#">ログイン</a></li>
+    <li><a href="#">オンラインモール</a></li>
+    <li><a href="#book">ご予約</a></li>
+  </ul>
+</div>
+
+<!-- ヘッダー -->
+<header class="site">
+  <div class="head">
+    <a class="logo" href="#"><b>★</b>STARS HOTEL<small>スターズホテル 東京</small></a>
+    <nav class="main">
+      <ul>
+        <li><a href="#stay">宿泊</a><ul>
+          <li><a href="#">客室のご案内</a></li><li><a href="#">宿泊プラン</a></li><li><a href="#">目的から探す</a></li><li><a href="#">空室カレンダー</a></li><li><a href="#">設備・サービス</a></li><li><a href="#">朝食のご案内</a></li><li><a href="#">ルームサービス</a></li><li><a href="#">エクスペリエンス</a></li><li><a href="#">よくあるご質問</a></li></ul></li>
+        <li><a href="#restaurant">レストラン・バー</a><ul>
+          <li><a href="#">店舗一覧</a></li><li><a href="#">レストランプラン</a></li><li><a href="#">個室のご案内</a></li><li><a href="#">アフタヌーンティー特集</a></li><li><a href="#">よくあるご質問</a></li></ul></li>
+        <li><a href="#shop">ホテルショップ</a><ul>
+          <li><a href="#">商品一覧</a></li><li><a href="#">人気商品</a></li><li><a href="#">季節のおすすめ情報</a></li><li><a href="#">店頭受け取りのご案内</a></li><li><a href="#">ショップコラム</a></li></ul></li>
+        <li><a href="#banquet">宴会・会議</a><ul>
+          <li><a href="#">宴会場のご案内</a></li><li><a href="#">モデルケースのご案内</a></li><li><a href="#">宴会プラン</a></li></ul></li>
+        <li><a href="#wedding">ウエディング</a></li>
+        <li><a href="#">イベント</a></li>
+        <li><a href="#access">館内施設・アクセス</a><ul>
+          <li><a href="#">地図・交通アクセス</a></li><li><a href="#">館内マップ</a></li><li><a href="#">駐車場</a></li><li><a href="#">観光スポット・周辺案内</a></li><li><a href="#">スターズハイヤー</a></li><li><a href="#">プール・サウナ・フィットネスジム</a></li><li><a href="#">星見の庭 ほしみ庵</a></li></ul></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ヒーロー -->
+<section class="hero">
+  <small>STARS HOTEL TOKYO</small>
+  <h1>星とともに進化するグランドホテル</h1>
+  <p>眼下に広がる夜景と、頭上に瞬く星々。伝統のおもてなしと最新の設備を併せもつ、東京の星のホテルです。</p>
+</section>
+
+<!-- 予約フォーム -->
+<section class="book inner" id="book">
+  <div class="tabs"><button class="on" data-t="f1">宿泊予約</button><button data-t="f2">レストラン予約</button></div>
+  <form class="form on" id="f1" onsubmit="return false">
+    <label>ホテル名<select><option>スターズホテル 東京</option><option>天の川高原スターズホテル</option><option>スターズホテル 大阪</option><option>スターズホテル 京都</option></select></label>
+    <label>チェックイン<input type="date"></label>
+    <label>チェックアウト<input type="date"></label>
+    <label>大人<select><option>1名</option><option selected>2名</option><option>3名</option><option>4名</option></select></label>
+    <label>子ども<select><option>0名</option><option>1名</option><option>2名</option><option>3名</option></select></label>
+    <label>客室数<select><option>1室</option><option>2室</option><option>3室</option></select></label>
+    <button class="btn fill">指定の条件で検索</button>
+    <div class="links"><a href="#">空室カレンダー</a><a href="#">ご予約の確認・変更・取消</a></div>
+  </form>
+  <form class="form" id="f2" onsubmit="return false">
+    <label>ホテル名<select><option>スターズホテル 東京</option><option>スターズホテル 大阪</option><option>スターズホテル 京都</option></select></label>
+    <label>レストラン名<select><option>すべて</option><option>ステラ ダイニング</option><option>アストラ</option><option>ミルキーウェイ バイキング</option><option>コメット ダイナー</option></select></label>
+    <label>ご利用日<input type="date"></label>
+    <label>時間<select id="times"></select></label>
+    <label>ご利用人数<select id="ppl"></select></label>
+    <button class="btn fill">指定の条件で検索</button>
+  </form>
+</section>
+
+<main>
+<!-- おすすめ情報 -->
+<section class="sec inner" style="padding-top:20px">
+  <h2><span>TOPICS &amp; PLAN</span>おすすめ情報・プラン</h2>
+  <div class="topics">
+    <a href="#"><span class="tag">TOPICS</span>スターズホテルのクリスマス STARLIGHT CHRISTMAS 2026</a>
+    <a href="#"><span class="tag">TOPICS</span>スターズホテルのお正月 2027</a>
+    <a href="#"><span class="tag">TOPICS</span>コメット限定販売 スターズホテルのおせち料理 2027</a>
+    <a href="#"><span class="tag">TOPICS</span>スターズホテル 東京の流星フェア</a>
+    <a href="#"><span class="tag">TOPICS</span>今月のロビー装花</a>
+    <a href="#"><span class="tag">TOPICS</span>「コメット」開店記念商品</a>
+    <a href="#"><span class="tag">TOPICS</span>星空ウエディングドレス展示付フェア</a>
+    <a href="#"><span class="tag">TOPICS</span>スターライトクラブ ご入会・ご紹介キャンペーン</a>
+    <a href="#"><span class="tag">TOPICS</span>スターズホテルのチャペルでプロポーズ</a>
+    <a href="#"><span class="tag">TOPICS</span>通信販売のご案内</a>
+    <a href="#"><span class="tag">PLAN</span>祝賀会のご案内</a>
+    <a href="#"><span class="tag">TOPICS</span>A Journey to the Stars</a>
+  </div>
+</section>
+
+<!-- 宿泊 -->
+<section class="sec inner" id="stay">
+  <div class="feat">
+    <div class="txt">
+      <h2><span>STAY</span>宿泊</h2>
+      <p>ゆっくりとお過ごしいただけるお部屋をご用意しております。記念日でのご宿泊やご家族でのご滞在、ビジネスでのご利用など、目的に合わせてお過ごしください。</p>
+      <div class="mini"><a href="#">客室のご案内</a><a href="#">空室カレンダー</a><a href="#">目的から探す</a><a href="#">設備・サービス</a></div>
+      <div class="plans">
+        <a href="#"><span class="tag">PLAN</span>クリスマスステイ</a>
+        <a href="#"><span class="tag">PLAN</span>ドッグスイートステイ</a>
+        <a href="#"><span class="tag">PLAN</span>お部屋で楽しむ星の晩餐ステイ</a>
+        <a href="#"><span class="tag">PLAN</span>3人旅 ベッド3台常設のジュニアスイート</a>
+        <a href="#"><span class="tag">FLOOR</span>ステラフロアのご案内</a>
+        <a href="#"><span class="tag">SUITE</span>天の川スイートのご案内</a>
+        <a href="#"><span class="tag">HIRE</span>スターズハイヤーで行く 夜景ドライブ</a>
+      </div>
+    </div>
+    <div class="ph">IMAGE</div>
+  </div>
+</section>
+
+<!-- レストラン -->
+<section class="sec inner" id="restaurant">
+  <div class="feat rev">
+    <div class="txt">
+      <h2><span>RESTAURANT &amp; BAR</span>レストラン・バー</h2>
+      <p>伝統のフランス料理や日本料理、バイキング、そしてカジュアルな雰囲気のダイナーなど、趣の異なるレストランとバーラウンジがございます。心地よい空間で洗練された味をご堪能ください。</p>
+      <div class="mini"><a href="#">店舗一覧</a><a href="#">レストランプラン</a><a href="#">ご利用シーン</a><a href="#">個室のご案内</a></div>
+      <div class="plans">
+        <a href="#">ステラ ダイニング（フランス料理）</a>
+        <a href="#">アストラ（日本料理）</a>
+        <a href="#">ミルキーウェイ（バイキング）</a>
+        <a href="#">コメット ダイナー</a>
+        <a href="#">ルナ ラウンジのアフタヌーンティー</a>
+        <a href="#">オリオン バー カクテルフリーフロー</a>
+        <a href="#">レストラン クリスマスメニュー</a>
+        <a href="#">星のレストランギフト券</a>
+      </div>
+    </div>
+    <div class="ph">IMAGE</div>
+  </div>
+</section>
+
+<!-- ショップ -->
+<section class="sec inner" id="shop">
+  <div class="feat">
+    <div class="txt">
+      <h2><span>HOTEL SHOP</span>ホテルショップ</h2>
+      <p>スイーツ、パン、惣菜、グッズを取り揃えるホテルショップです。一部商品はインターネットにてご予約も承ります。</p>
+      <a class="btn" href="#">もっと見る</a>
+    </div>
+    <div class="ph">IMAGE</div>
+  </div>
+</section>
+
+<!-- 宴会 -->
+<section class="sec inner" id="banquet">
+  <div class="feat rev">
+    <div class="txt">
+      <h2><span>BANQUET &amp; MEETING</span>宴会・会議</h2>
+      <p>ご家族・お仲間との集いの場から、セミナー・国際会議の舞台まで。目的や規模に合わせた空間と、想い出に残るひとときをご提案いたします。</p>
+      <a class="btn" href="#">もっと見る</a>
+    </div>
+    <div class="ph">IMAGE</div>
+  </div>
+</section>
+
+<!-- ウエディング -->
+<section class="sec inner" id="wedding">
+  <div class="feat">
+    <div class="txt">
+      <h2><span>WEDDING</span>ウエディング</h2>
+      <p>星に誓う、最高の一日を。受け継がれてきたおもてなしの心で、ご新郎ご新婦、ゲストのみなさまをお迎えいたします。</p>
+      <a class="btn" href="#">もっと見る</a>
+    </div>
+    <div class="ph">IMAGE</div>
+  </div>
+</section>
+
+<!-- オンラインモール -->
+<section class="sec inner" style="padding:20px 20px 60px">
+  <div class="band">
+    <h2><span>ONLINE MALL</span>STELLA MALL</h2>
+    <p style="color:var(--sub);margin:8px 0 18px">スターズホテルのアンバサダーがセレクトした日本各地の逸品をお届けするオンラインモール。ホテルの人気商品のほか、限定商品もご用意しております。</p>
+    <a class="btn" href="#">オンラインモールへ</a>
+  </div>
+</section>
+
+<!-- お知らせ -->
+<section class="sec inner" style="padding-top:10px">
+  <h2><span>NEWS</span>お知らせ</h2>
+  <ul class="news" style="margin:16px 0 20px">
+    <li><a href="#">スターズホテル 東京 ホテルやオンライントラベルエージェントを装った不審なメール・メッセージにご注意ください</a></li>
+    <li><a href="#">スターズホテル 東京 周辺再開発における工事音について</a></li>
+    <li><a href="#">スターズホテル 東京 モバイルバッテリーのご使用に関するお願い</a></li>
+    <li><a href="#">スターズホテル 東京 ふるさと納税 一時利用停止と再開見込みのお知らせ</a></li>
+  </ul>
+  <a class="btn" href="#">もっと見る</a>
+</section>
+
+<!-- もっと楽しむ -->
+<section class="sec inner">
+  <h2><span>MEMBERSHIP</span>スターズホテルをもっと楽しむ</h2>
+  <p style="color:var(--sub)">大切な時間をより充実したものへ。スターズホテルのサービスを心ゆくまでご堪能ください。</p>
+  <div class="cards">
+    <div class="card"><h3>ID スターズホテルのデジタルアカウント</h3><p>最新情報のお知らせやご優待券の配信、オンラインショップなどのサービスをご利用いただけます。（ご登録無料）</p><a class="btn" href="#">もっと見る</a></div>
+    <div class="card"><h3>Starlight Club スターライトクラブ</h3><p>スターズホテルをご愛顧賜りますお客様へ、より充実したサービスをお届けする会員組織です。</p><a class="btn" href="#">もっと見る</a></div>
+  </div>
+</section>
+</main>
+
+<!-- フッター -->
+<footer id="access">
+  <div class="inner">
+    <div class="fgrid">
+      <div>
+        <h4>★ スターズホテル 東京</h4>
+        <p>〒000-0000 東京都○○区星見町1-1-1<br>TEL：(00)0000-0000</p>
+        <ul style="margin-top:12px"><li><a href="#">総支配人ご挨拶</a></li><li><a href="#">施設概要</a></li><li><a href="#">館内ショッピングエリア</a></li><li><a href="#">ギフト券のご案内</a></li><li><a href="#">スターズハイヤー</a></li></ul>
+      </div>
+      <div>
+        <h4>ホテル一覧</h4>
+        <ul><li><a href="#">東京</a></li><li><a href="#">天の川高原</a></li><li><a href="#">大阪</a></li><li><a href="#">京都</a></li><li>提携ホテル <a href="#">オリオン</a></li><li>提携ホテル <a href="#">シリウス ウミ</a></li></ul>
+      </div>
+      <div>
+        <h4>企業情報</h4>
+        <ul><li><a href="#">会社情報</a></li><li><a href="#">IR情報</a></li><li><a href="#">サステナビリティ</a></li><li><a href="#">ニュースリリース</a></li><li><a href="#">採用情報</a></li><li><a href="#">ブランドストーリー</a></li><li><a href="#">お問い合わせ</a></li><li><a href="#">資料請求</a></li></ul>
+      </div>
+      <div>
+        <h4>SNS</h4>
+        <ul><li><a href="#">Instagram</a></li><li><a href="#">Facebook</a></li><li><a href="#">YouTube</a></li></ul>
+        <p style="margin-top:14px"><a href="#">法定公告</a> / <a href="#">プライバシーポリシー</a> / <a href="#">利用規約</a> / <a href="#">サイトマップ</a></p>
+      </div>
+    </div>
+    <p class="copy">© Stars Hotel, Ltd. <a href="#" style="margin-left:14px">▲ TOP</a></p>
+  </div>
+</footer>
+</div>
+
+<script>
+// 予約タブ切替
+document.querySelectorAll('.tabs button').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.tabs button').forEach(function(x){x.classList.remove('on')});
+    document.querySelectorAll('.form').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    document.getElementById(b.dataset.t).classList.add('on');
+  });
+});
+// 時間・人数の選択肢
+(function(){
+  var t=document.getElementById('times'),p=document.getElementById('ppl'),h,m,i;
+  for(h=11;h<=23;h++){for(m=0;m<60;m+=30){if(h===23&&m)continue;
+    t.innerHTML+='<option>'+h+':'+(m?'30':'00')+'</option>';}}
+  for(i=1;i<=10;i++){p.innerHTML+='<option'+(i===2?' selected':'')+'>'+i+'名</option>';}
+})();
+// 動く輝く星の背景
+(function(){
+  var c=document.getElementById('sky'),x=c.getContext('2d'),W,H,stars=[],shoot=[];
+  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){
+    var d=window.devicePixelRatio||1;
+    W=innerWidth;H=innerHeight;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0);
+    var n=Math.min(320,Math.floor(W*H/6000));stars=[];
+    for(var i=0;i<n;i++){
+      stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.3,
+        v:Math.random()*.18+.03,p:Math.random()*6.28,s:Math.random()*.03+.008,
+        h:Math.random()<.25?45:(Math.random()<.5?220:50)});
+    }
+  }
+  function draw(){
+    x.clearRect(0,0,W,H);
+    stars.forEach(function(s){
+      s.p+=s.s;s.y-=s.v;s.x+=s.v*.4;
+      if(s.y<-4){s.y=H+4;s.x=Math.random()*W}
+      if(s.x>W+4)s.x=-4;
+      var a=.45+.55*Math.sin(s.p);
+      x.beginPath();x.arc(s.x,s.y,s.r,0,6.28);
+      x.fillStyle='hsla('+s.h+',90%,88%,'+a+')';
+      x.shadowColor='hsla('+s.h+',100%,80%,'+a+')';x.shadowBlur=s.r*5;x.fill();
+    });
+    x.shadowBlur=0;
+    if(Math.random()<.006&&shoot.length<2){
+      shoot.push({x:Math.random()*W*.8+W*.2,y:Math.random()*H*.4,l:0,m:70+Math.random()*50});
+    }
+    shoot=shoot.filter(function(s){
+      s.x-=9;s.y+=4.5;s.l++;
+      var g=x.createLinearGradient(s.x,s.y,s.x+90,s.y-45);
+      g.addColorStop(0,'rgba(255,245,200,'+(1-s.l/s.m)+')');g.addColorStop(1,'rgba(255,245,200,0)');
+      x.strokeStyle=g;x.lineWidth=2;x.beginPath();x.moveTo(s.x,s.y);x.lineTo(s.x+90,s.y-45);x.stroke();
+      return s.l<s.m;
+    });
+    if(!still)requestAnimationFrame(draw);
+  }
+  addEventListener('resize',size);size();draw();
+})();
+
+// ===== パネル機能 =====
+(function(){
+var H=['スターズホテル 東京','天の川高原スターズホテル','スターズホテル 大阪','スターズホテル 京都','提携ホテル オリオン','提携ホテル シリウス ウミ'];
+var HD=['星見の丘に建つ旗艦ホテル','標高1,500mの満天の星空','夜景とともに楽しむ街のホテル','古都に灯る星あかり','星座の名を冠した南の楽園','海に映る星のリゾート'];
+var LG=[['ja','日本語'],['en','ENGLISH'],['zh-CN','中文(简体)'],['zh-TW','中文(繁體)'],['ko','한국어']];
+var NAV={ja:['宿泊','レストラン・バー','ホテルショップ','宴会・会議','ウエディング','イベント','館内施設・アクセス'],en:['Stay','Restaurants & Bars','Hotel Shop','Banquets','Weddings','Events','Facilities & Access'],'zh-CN':['住宿','餐厅·酒吧','酒店商店','宴会·会议','婚礼','活动','馆内设施·交通'],'zh-TW':['住宿','餐廳·酒吧','飯店商店','宴會·會議','婚禮','活動','館內設施·交通'],ko:['숙박','레스토랑·바','호텔 숍','연회·회의','웨딩','이벤트','시설·오시는 길']};
+var UT={ja:['言語 ▾','検索','ホテルを選ぶ ▾','ログイン','オンラインモール','ご予約'],en:['Language ▾','Search','Hotels ▾','Login','Online Mall','Reserve'],'zh-CN':['语言 ▾','搜索','选择酒店 ▾','登录','网上商城','预订'],'zh-TW':['語言 ▾','搜尋','選擇飯店 ▾','登入','線上商城','預約'],ko:['언어 ▾','검색','호텔 선택 ▾','로그인','온라인 몰','예약']};
+var HERO={ja:'星とともに進化するグランドホテル',en:'A Grand Hotel Evolving with the Stars','zh-CN':'与星辰共同进化的格调酒店','zh-TW':'與星辰共同進化的格調飯店',ko:'별과 함께 진화하는 그랜드 호텔'};
+var D={
+stay:{t:'宿泊',s:'STAY',i:'ゆっくりとお過ごしいただけるお部屋をご用意しております。',L:[
+['客室のご案内','デラックスツイン、ジュニアスイート、天の川スイートなど、星空や夜景を望む客室をご用意しています。'],
+['宿泊プラン','クリスマスステイ、ドッグスイートステイ、お部屋で楽しむ星の晩餐ステイなど、季節のプランをご案内します。'],
+['目的から探す','記念日・ご家族・ビジネスなど、ご滞在の目的から客室とプランを選べます。'],
+['空室カレンダー','月ごとの空室状況をご確認いただけます。'],
+['設備・サービス','Wi-Fi、ランドリー、コンシェルジュ、ベビールームなどをご利用いただけます。'],
+['朝食のご案内','ミルキーウェイ バイキングほか、朝の光と星の余韻を楽しむ朝食をご用意しています。'],
+['ルームサービス','24時間、星空の下のお部屋でお食事をお楽しみいただけます。'],
+['エクスペリエンス','屋上の星空観望会、プラネタリウムラウンジなどの体験をご案内します。'],
+['よくあるご質問','チェックイン・チェックアウトの時間、ペットとのご宿泊などについてお答えします。']]},
+restaurant:{t:'レストラン・バー',s:'RESTAURANT & BAR',i:'趣の異なるレストランとバーラウンジで、洗練された味をご堪能ください。',L:[
+['店舗一覧','ステラ ダイニング、アストラ、ミルキーウェイ、コメット ダイナー、ルナ ラウンジ、オリオン バー。'],
+['ステラ ダイニング','伝統のフランス料理を、夜景を望む席でお楽しみいただけます。'],
+['アストラ','旬の食材を活かした日本料理。個室もございます。'],
+['ミルキーウェイ バイキング','和洋の料理が天の川のように並ぶ、人気のバイキングです。'],
+['コメット ダイナー','カジュアルな雰囲気で、いつでも気軽にご利用いただけるダイナーです。'],
+['ルナ ラウンジのアフタヌーンティー','月明かりをイメージした空間で、季節のアフタヌーンティーを。'],
+['オリオン バー','カクテルフリーフローや、ウイスキーのボトルキープフェアを開催中です。'],
+['レストランプラン','クリスマスメニュー、伝統メニューなどのプランをご案内します。'],
+['個室のご案内','ご家族やご接待に最適な個室をご用意しています。'],
+['よくあるご質問','ご予約、ドレスコード、お子様連れのご利用についてお答えします。']]},
+shop:{t:'ホテルショップ',s:'HOTEL SHOP',i:'スイーツ、パン、惣菜、グッズを取り揃えるホテルショップ「コメット」です。',L:[
+['商品一覧','スイーツ・パン・惣菜・ギフト・グッズをカテゴリ別にご覧いただけます。'],
+['人気商品','流星のシュークリーム、星屑クッキー、天の川カレーなど。'],
+['季節のおすすめ情報','クリスマスケーキ、おせち料理2027など季節の商品をご案内します。'],
+['店頭受け取りのご案内','Webで事前予約いただき、店頭でお受け取りいただけます。'],
+['ショップコラム','商品の誕生秘話や、シェフのおすすめの食べ方をご紹介します。'],
+['その他お取り扱い店舗','館外のお取り扱い店舗をご案内します。'],
+['よくあるご質問','賞味期限、配送、ご予約方法についてお答えします。']]},
+event:{t:'イベント',s:'EVENT',i:'星にまつわる季節のイベントを開催しています。',L:[
+['星空観望ナイト','屋上テラスで、スタッフの解説とともに星空を観察します。'],
+['流星群ビューイング','流星群の極大日に、特別メニューとともに夜空を眺めます。'],
+['スターライト クリスマスコンサート','ロビーに響く生演奏と、きらめくイルミネーション。'],
+['星のマルシェ','全国の逸品が集まる、年に一度のマルシェです。'],
+['年末カウントダウン','新しい年を星空の下で迎えるカウントダウンイベントです。'],
+['今月のロビー装花','季節の花々が彩るロビーをご覧いただけます。']]},
+access:{t:'館内施設・アクセス',s:'FACILITY & ACCESS',i:'館内施設と交通アクセスをご案内します。',L:[
+['地図・交通アクセス','星見町駅から徒歩3分。羽田空港からは車で約30分です。（仮の情報です）'],
+['館内マップ','各フロアのレストラン・ショップ・宴会場をご案内します。'],
+['駐車場','館内駐車場のご利用料金・台数をご案内します。'],
+['観光スポット・周辺案内','公園、美術館、商業エリアなど周辺の見どころをご紹介します。'],
+['スターズハイヤー','夜景ドライブプランなど、専用車でのご移動をご用意します。'],
+['プール・サウナ・フィットネスジム','ご宿泊のお客様がご利用いただけるスパ施設です。'],
+['星見の庭 ほしみ庵','日本庭園と茶室で、静かなひとときをお過ごしください。'],
+['ベビールーム・託児室','授乳室、おむつ替え、託児サービスをご案内します。'],
+['よくあるご質問','館内施設のご利用時間やサービスについてお答えします。']]}
+};
+var ov=document.createElement('div');ov.id='ov';document.body.appendChild(ov);
+var tt=document.createElement('div');tt.className='toast';document.body.appendChild(tt);
+var cur=null,lang='ja',hot=0;
+function toast(m){tt.textContent=m;tt.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(function(){tt.classList.remove('on')},2200)}
+function close(){ov.classList.remove('on');ov.innerHTML='';cur=null;document.body.style.overflow=''}
+function box(t,s,i,body){return '<div class="pn"><button class="x" data-x aria-label="閉じる">×</button><h2><span>'+s+'</span>'+t+'</h2><p class="lead">'+i+'</p>'+body+'</div>'}
+function render(k){
+  if(D[k]){var d=D[k];return box(d.t,d.s,d.i,d.L.map(function(x){return '<details data-t="'+x[0]+'"><summary>'+x[0]+'</summary><p>'+x[1]+'</p><button class="btn" data-book>予約・お問い合わせへ</button></details>'}).join(''))}
+  if(k==='lang')return box('言語','LANGUAGE','表示する言語を選択してください。','<div class="grid">'+LG.map(function(l){return '<button class="opt'+(l[0]===lang?' cur':'')+'" data-l="'+l[0]+'">'+l[1]+'</button>'}).join('')+'</div>');
+  if(k==='hotel')return box('ホテルを選ぶ','SELECT HOTEL','ご利用のホテルを選択してください。','<div class="grid">'+H.map(function(h,i){return '<button class="opt'+(i===hot?' cur':'')+'" data-h="'+i+'">'+h+'<small>'+HD[i]+'</small></button>'}).join('')+'</div>');
+  if(k==='search')return box('検索','SEARCH','キーワードを入力してください。（例：星、朝食、クリスマス）','<input class="q" id="q" placeholder="キーワード" autofocus><div id="rs"></div>');
+}
+function open(k,hl){
+  cur=k;ov.innerHTML=render(k);ov.classList.add('on');document.body.style.overflow='hidden';ov.scrollTop=0;
+  if(hl){var e=ov.querySelector('details[data-t="'+hl+'"]');if(e){e.open=true;e.scrollIntoView({block:'center'})}}
+  if(k==='search'){var q=document.getElementById('q');q.focus();q.addEventListener('input',function(){find(q.value)});find('')}
+}
+function find(v){
+  var r=document.getElementById('rs'),o=[],w=v.trim().toLowerCase();
+  if(!w){r.innerHTML='<p class="lead">入力すると、宿泊・レストラン・ショップ・イベント・館内施設から探せます。</p>';return}
+  Object.keys(D).forEach(function(k){D[k].L.forEach(function(x){if((x[0]+x[1]).toLowerCase().indexOf(w)>-1)o.push('<button class="res" data-o="'+k+'" data-hl="'+x[0]+'"><small>'+D[k].t+'</small>'+x[0]+'</button>')})});
+  H.forEach(function(h,i){if((h+HD[i]).toLowerCase().indexOf(w)>-1)o.push('<button class="res" data-o="hotel"><small>ホテル</small>'+h+'</button>')});
+  r.innerHTML=o.length?o.join(''):'<p class="lead">「'+v+'」に一致する情報は見つかりませんでした。</p>';
+}
+function setLang(c){
+  lang=c;document.documentElement.lang=c;
+  document.querySelectorAll('nav.main>ul>li>a').forEach(function(a,i){a.textContent=NAV[c][i]});
+  document.querySelectorAll('.util>ul>li>a').forEach(function(a,i){a.textContent=UT[c][i]});
+  document.querySelector('.hero h1').textContent=HERO[c];
+  close();toast(LG.filter(function(l){return l[0]===c})[0][1]);
+}
+function setHotel(i){
+  hot=i;document.querySelector('.logo small').textContent=H[i];
+  document.querySelector('.hero small').textContent=H[i].toUpperCase();
+  document.querySelectorAll('.form select:first-of-type').forEach(function(sel){
+    for(var j=0;j<sel.options.length;j++)if(sel.options[j].text===H[i])sel.selectedIndex=j});
+  close();toast(H[i]+' を選択しました');
+}
+ov.addEventListener('click',function(e){
+  var t=e.target,b;
+  if(t===ov||t.hasAttribute('data-x'))return close();
+  if((b=t.closest('[data-l]')))return setLang(b.dataset.l);
+  if((b=t.closest('[data-h]')))return setHotel(+b.dataset.h);
+  if((b=t.closest('[data-o]')))return open(b.dataset.o,b.dataset.hl);
+  if(t.hasAttribute('data-book')){close();document.getElementById('book').scrollIntoView({behavior:'smooth'})}
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+// 上部バー
+var ut=document.querySelectorAll('.util>ul>li>a'),uk=['lang','search','hotel'];
+uk.forEach(function(k,i){ut[i].addEventListener('click',function(e){e.preventDefault();open(k)})});
+document.querySelectorAll('.util .dd').forEach(function(dd,n){
+  dd.querySelectorAll('ul a').forEach(function(a,i){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();n===0?setLang(LG[i][0]):setHotel(i)})})});
+// メインメニュー
+var nk={0:'stay',1:'restaurant',2:'shop',5:'event',6:'access'};
+document.querySelectorAll('nav.main>ul>li').forEach(function(li,i){
+  var k=nk[i];if(!k)return;
+  li.querySelector(':scope>a').addEventListener('click',function(e){e.preventDefault();open(k)});
+  li.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();open(k,a.textContent.trim())})});
+});
+})();
+</script>
+</body>
+</html>
