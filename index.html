@@ -110,6 +110,7 @@ footer a:hover{color:var(--gold)}
 .res{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--text);padding:10px 14px;margin-bottom:6px;font-family:inherit;cursor:pointer;font-size:14px}
 .res:hover{border-color:var(--gold)}
 .res small{color:var(--gold);margin-right:8px;font-size:11px}
+.sum{border:1px solid var(--line);background:var(--panel)}.sum div{display:flex;justify-content:space-between;gap:16px;padding:8px 14px;border-bottom:1px solid var(--line);font-size:14px}.sum span{color:var(--sub)}.sum b{font-weight:400;text-align:right}
 .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--gold);color:#050816;padding:10px 24px;z-index:200;font-size:14px;opacity:0;transition:.4s;pointer-events:none}
 .toast.on{opacity:1}
 </style>
@@ -454,7 +455,18 @@ access:{t:'館内施設・アクセス',s:'FACILITY & ACCESS',i:'館内施設と
 ['プール・サウナ・フィットネスジム','ご宿泊のお客様がご利用いただけるスパ施設です。'],
 ['星見の庭 ほしみ庵','日本庭園と茶室で、静かなひとときをお過ごしください。'],
 ['ベビールーム・託児室','授乳室、おむつ替え、託児サービスをご案内します。'],
-['よくあるご質問','館内施設のご利用時間やサービスについてお答えします。']]}
+['よくあるご質問','館内施設のご利用時間やサービスについてお答えします。']]},
+news:{t:'お知らせ',s:'NEWS',i:'スターズホテル 東京からのお知らせです。',L:[
+['スターズホテル 東京 ホテルやオンライントラベルエージェントを装った不審なメール・メッセージにご注意ください','2026.10.05 当ホテルを装った不審なメールやSMSが確認されています。ご予約の確認は公式サイトまたはお電話でお願いいたします。'],
+['スターズホテル 東京 周辺再開発における工事音について','2026.09.28 周辺の再開発工事に伴い、日中に工事音が発生する場合がございます。ご不便をおかけしますことをお詫び申し上げます。'],
+['スターズホテル 東京 モバイルバッテリーのご使用に関するお願い','2026.09.15 安全のため、館内でのモバイルバッテリーの充電は、お客様の目の届く場所でお願いいたします。'],
+['スターズホテル 東京 ふるさと納税 一時利用停止と再開見込みのお知らせ','2026.09.01 システム更新のため一時利用を停止しております。再開は11月上旬を予定しています。']]},
+banquet:{t:'宴会・会議',s:'BANQUET & MEETING',i:'ご家族・お仲間との集いから、セミナー・国際会議まで。目的や規模に合わせた空間をご提案します。',L:[
+['宴会場のご案内','銀河の間（〜300名）、天球の間（〜120名）、北斗の間（〜60名）、七夕の間（〜20名）をご用意しています。'],
+['モデルケースのご案内','還暦祝い、同窓会、企業懇親会、セミナーなど、規模別のモデルケースをご紹介します。'],
+['宴会プラン','星空コース料理、乾杯ドリンク付きプランなど、ご予算に合わせたプランをご案内します。'],
+['会議設備・ケータリング','プロジェクター、同時通訳ブース、軽食・お弁当の手配に対応します。'],
+['よくあるご質問','お見積り、キャンセル料、持ち込みの可否などについてお答えします。']]}
 };
 var ov=document.createElement('div');ov.id='ov';document.body.appendChild(ov);
 var tt=document.createElement('div');tt.className='toast';document.body.appendChild(tt);
@@ -463,7 +475,10 @@ function toast(m){tt.textContent=m;tt.classList.add('on');clearTimeout(toast.t);
 function close(){ov.classList.remove('on');ov.innerHTML='';cur=null;document.body.style.overflow=''}
 function box(t,s,i,body){return '<div class="pn"><button class="x" data-x aria-label="閉じる">×</button><h2><span>'+s+'</span>'+t+'</h2><p class="lead">'+i+'</p>'+body+'</div>'}
 function render(k){
-  if(D[k]){var d=D[k];return box(d.t,d.s,d.i,d.L.map(function(x){return '<details data-t="'+x[0]+'"><summary>'+x[0]+'</summary><p>'+x[1]+'</p><button class="btn" data-book>予約・お問い合わせへ</button></details>'}).join(''))}
+  if(D[k]){var d=D[k];return box(d.t,d.s,d.i,d.L.map(function(x){return '<details data-t="'+x[0]+'"><summary>'+x[0]+'</summary><p>'+x[1]+'</p>'+(k==='news'?'':'<button class="btn" data-book>'+(k==='banquet'?'宴会のお申し込みへ':'予約・お問い合わせへ')+'</button>')+'</details>'}).join('')+(k==='banquet'?bform():''))}
+  if(k==='resv')return rform();
+  if(k==='done')return dform();
+  if(k==='mine')return mine();
   if(k==='lang')return box('言語','LANGUAGE','表示する言語を選択してください。','<div class="grid">'+LG.map(function(l){return '<button class="opt'+(l[0]===lang?' cur':'')+'" data-l="'+l[0]+'">'+l[1]+'</button>'}).join('')+'</div>');
   if(k==='hotel')return box('ホテルを選ぶ','SELECT HOTEL','ご利用のホテルを選択してください。','<div class="grid">'+H.map(function(h,i){return '<button class="opt'+(i===hot?' cur':'')+'" data-h="'+i+'">'+h+'<small>'+HD[i]+'</small></button>'}).join('')+'</div>');
   if(k==='search')return box('検索','SEARCH','キーワードを入力してください。（例：星、朝食、クリスマス）','<input class="q" id="q" placeholder="キーワード" autofocus><div id="rs"></div>');
@@ -480,6 +495,27 @@ function find(v){
   H.forEach(function(h,i){if((h+HD[i]).toLowerCase().indexOf(w)>-1)o.push('<button class="res" data-o="hotel"><small>ホテル</small>'+h+'</button>')});
   r.innerHTML=o.length?o.join(''):'<p class="lead">「'+v+'」に一致する情報は見つかりませんでした。</p>';
 }
+var RV=[];try{RV=JSON.parse(localStorage.getItem('shRv')||'[]')}catch(e){}
+var pend=null,lastId=null;
+function save(){try{localStorage.setItem('shRv',JSON.stringify(RV))}catch(e){}}
+function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+function sel(a){return a.map(function(x){return '<option>'+x+'</option>'}).join('')}
+function rows(a){return a.map(function(r){return '<div><span>'+r[0]+'</span><b>'+r[1]+'</b></div>'}).join('')}
+function bform(){
+  var tm=[],h;for(h=9;h<=21;h++)tm.push(h+':00');
+  return '<h3 id="bq" style="font-weight:400;color:var(--gold);margin:26px 0 12px;letter-spacing:.1em">宴会・会議のお申し込み</h3><form data-f="banq" class="form on"><label>会場<select>'+sel(['銀河の間（〜300名）','天球の間（〜120名）','北斗の間（〜60名）','七夕の間（〜20名）'])+'</select></label><label>ご利用日<input type="date" min="'+today()+'"></label><label>開始時間<select>'+sel(tm)+'</select></label><label>ご参加人数<input type="number" min="2" max="300" value="20"></label><label>ご利用目的<select>'+sel(['ご宴会','会議・セミナー','ご会食','同窓会・パーティー','その他'])+'</select></label><button class="btn fill">申し込みに進む</button></form>';
+}
+function rform(){
+  return box('ご予約内容のご確認','RESERVATION','ご予約内容をご確認のうえ、お客様情報をご入力ください。','<div class="sum">'+rows([['種別',pend.type]].concat(pend.rows))+'</div><form data-f="guest" class="form on" style="margin-top:18px"><label>お名前（必須）<input name="n" required></label><label>メールアドレス（必須）<input name="m" type="email" required></label><label>電話番号<input name="p" type="tel"></label><label>ご要望<input name="r" placeholder="アレルギー、記念日など"></label><button class="btn fill">予約を確定する</button></form>');
+}
+function dform(){
+  var r=RV.filter(function(x){return x.id===lastId})[0];
+  return box('ご予約を承りました','COMPLETE',r.name+' 様、ありがとうございます。','<div class="sum">'+rows([['予約番号',r.id],['種別',r.type]].concat(r.rows))+'</div><p class="lead" style="margin-top:14px">※デモサイトのため、確認メールは送信されません。予約内容はこのブラウザ内にのみ保存されます。</p><button class="btn" data-mine>ご予約の確認・取消</button>');
+}
+function mine(){
+  return box('ご予約の確認・取消','MY RESERVATIONS','このブラウザで行ったご予約の一覧です。',RV.length?RV.map(function(r){return '<div class="sum" style="margin-bottom:12px">'+rows([['予約番号',r.id],['種別',r.type],['お名前',r.name]].concat(r.rows))+'<div style="border:0"><span></span><button class="btn" style="padding:6px 18px;font-size:12px" data-cancel="'+r.id+'">取り消す</button></div></div>'}).join(''):'<p class="lead">ご予約はまだありません。</p>');
+}
+function startResv(type,r){pend={type:type,rows:r};open('resv')}
 function setLang(c){
   lang=c;document.documentElement.lang=c;
   document.querySelectorAll('nav.main>ul>li>a').forEach(function(a,i){a.textContent=NAV[c][i]});
@@ -500,8 +536,38 @@ ov.addEventListener('click',function(e){
   if((b=t.closest('[data-l]')))return setLang(b.dataset.l);
   if((b=t.closest('[data-h]')))return setHotel(+b.dataset.h);
   if((b=t.closest('[data-o]')))return open(b.dataset.o,b.dataset.hl);
-  if(t.hasAttribute('data-book')){close();document.getElementById('book').scrollIntoView({behavior:'smooth'})}
+  if((b=t.closest('[data-cancel]'))){RV=RV.filter(function(x){return x.id!==b.dataset.cancel});save();toast('ご予約を取り消しました');return open('mine')}
+  if(t.hasAttribute('data-mine'))return open('mine');
+  if(t.hasAttribute('data-book')){if(cur==='banquet'){document.getElementById('bq').scrollIntoView({behavior:'smooth'});return}close();document.getElementById('book').scrollIntoView({behavior:'smooth'})}
 });
+ov.addEventListener('submit',function(e){
+  e.preventDefault();var f=e.target,v;
+  if(f.dataset.f==='banq'){v=f.querySelectorAll('select,input');
+    if(!v[1].value)return toast('ご利用日を選択してください');
+    startResv('宴会・会議',[['会場',v[0].value],['ご利用日',v[1].value],['開始時間',v[2].value],['ご参加人数',v[3].value+'名'],['ご利用目的',v[4].value]])}
+  else if(f.dataset.f==='guest'){
+    var id='SH-'+Date.now().toString(36).toUpperCase().slice(-6);
+    RV.push({id:id,type:pend.type,rows:pend.rows,name:f.n.value,mail:f.m.value});save();lastId=id;open('done')}
+});
+// 上部の予約フォーム
+document.querySelectorAll('#book input[type=date]').forEach(function(i){i.min=today()});
+var f1=document.getElementById('f1'),f2=document.getElementById('f2');
+f1.addEventListener('submit',function(e){
+  e.preventDefault();var v=f1.querySelectorAll('select,input');
+  if(!v[1].value||!v[2].value)return toast('チェックイン・チェックアウト日を選択してください');
+  if(v[2].value<=v[1].value)return toast('チェックアウトはチェックインより後の日付にしてください');
+  startResv('宿泊',[['ホテル',v[0].value],['チェックイン',v[1].value],['チェックアウト',v[2].value],['大人',v[3].value],['子ども',v[4].value],['客室数',v[5].value]]);
+});
+f2.addEventListener('submit',function(e){
+  e.preventDefault();var v=f2.querySelectorAll('select,input');
+  if(!v[2].value)return toast('ご利用日を選択してください');
+  startResv('レストラン',[['ホテル',v[0].value],['レストラン',v[1].value],['ご利用日',v[2].value],['時間',v[3].value],['ご利用人数',v[4].value]]);
+});
+document.querySelectorAll('#f1 .links a').forEach(function(a,i){a.addEventListener('click',function(e){e.preventDefault();i?open('mine'):open('stay','空室カレンダー')})});
+// お知らせ・宴会
+document.querySelectorAll('.news a').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();open('news',a.textContent.trim())})});
+document.querySelector('.news').parentNode.querySelector('.btn').addEventListener('click',function(e){e.preventDefault();open('news')});
+document.querySelector('#banquet .btn').addEventListener('click',function(e){e.preventDefault();open('banquet')});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
 // 上部バー
 var ut=document.querySelectorAll('.util>ul>li>a'),uk=['lang','search','hotel'];
@@ -509,7 +575,7 @@ uk.forEach(function(k,i){ut[i].addEventListener('click',function(e){e.preventDef
 document.querySelectorAll('.util .dd').forEach(function(dd,n){
   dd.querySelectorAll('ul a').forEach(function(a,i){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();n===0?setLang(LG[i][0]):setHotel(i)})})});
 // メインメニュー
-var nk={0:'stay',1:'restaurant',2:'shop',5:'event',6:'access'};
+var nk={0:'stay',1:'restaurant',2:'shop',3:'banquet',5:'event',6:'access'};
 document.querySelectorAll('nav.main>ul>li').forEach(function(li,i){
   var k=nk[i];if(!k)return;
   li.querySelector(':scope>a').addEventListener('click',function(e){e.preventDefault();open(k)});
